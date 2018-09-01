@@ -96,10 +96,8 @@ BACKGROUND.init();
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
 delegate(PLAYER, renderizibles);
 
-var enemies = [];
-
 for (var i = 0; i < 5; i++) {
-    enemies.push(new Enemies("Blue", 10, 10, Math.random() * 10, CONFIG.width * Math.random(), 0, 5));
+    Enemies.list.push(new Enemies("Blue", 10, 10, Math.random() * 10, CONFIG.width * Math.random(), 0, 5));
 }
 TIMER.init();
 
@@ -109,12 +107,12 @@ function main() {
     CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
     // Checa se pegou o player
-    Enemies.caughtPlayer(enemies);
+    Enemies.caughtPlayer();
 
     // renderiza
     BACKGROUND.render();
     PLAYER.render();
-    Enemies.renderAll(enemies);
+    Enemies.renderAll();
     TIMER.render();
 
     // Invoca funções dali tantos segundos
