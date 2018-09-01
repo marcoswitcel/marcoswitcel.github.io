@@ -1,111 +1,85 @@
 "use strict";
-
-// Globais
-const CANVAS = document.querySelector("#canvas");
-const CTX = CANVAS.getContext("2d");
-const CONFIG = {
-    width: 1200,
+var CONFIG = {
+    width: 1050,
     height: 600
 };
-
-const FRAMES_PER_SECOND = 1000 / 600;
-
+var CANVAS = document.querySelector("#canvas");
+var CTX = CANVAS.getContext("2d");
+CANVAS.width = CONFIG.width;
+CANVAS.height = CONFIG.height
+var FRAMES_PER_SECOND = 1000 / 600;
 
 var left = false,
     right = false,
     down = false,
     up = false;
 
-CANVAS.width = CONFIG.width;
-CANVAS.height = CONFIG.height;
-
-// Escolher a cor que vai ser usada na 'renderização'
-// CTX.fillStyle = "Red";
-// desenha um retângulo da cor do valor do 'fillStyle' do CTX (context)
-// posição hor, ver; largura e altura
-// CTX.fillRect(0, 0, 100, 100);
-
-// Funçãozinha que vincula objetos a outro objetos
-// assim permitindo o lookup de atributos
 function delegate(who, to) {
     who.__proto__ = to;
 }
 
-function notUndefined(...arg) {
-    for (var value of arg)
-        if (typeof value == "undefined") throw {
-            message: "Valor não definido"
-        };
-}
-
-const renderizibles = {
-
+var renderizibles = {
     update: function update() {
-        var acel = 1;
+        var speed = this.speed;
 
-
-
-        if (left) {
-
-            PLAYER.xPos -= acel;
+        if (left && BOUNDARIES.withinHorSpace(PLAYER.xPos - speed)) {
+            PLAYER.xPos -= speed;
         }
-        if (right) {
-            PLAYER.xPos += acel;
+        if (right && BOUNDARIES.withinHorSpace(PLAYER.xPos + speed)) {
+            PLAYER.xPos += speed;
         }
-        if (up) {
-            PLAYER.yPos -= acel;
+        if (up && BOUNDARIES.withinVerSpace(PLAYER.yPos - speed)) {
+            PLAYER.yPos -= speed;
         }
-        if (down) {
-            PLAYER.yPos += acel;
+        if (down && BOUNDARIES.withinVerSpace(PLAYER.yPos + speed)) {
+            PLAYER.yPos += speed;
         }
-
-
     },
 
-    render: function render(obj = this) {
-        let {
-            color,
-            xPos,
-            yPos,
-            width,
-            height
-        } = obj;
-
-        CTX.fillStyle = color;
-        CTX.fillRect(xPos, yPos, width, height);
+    render: function render() {
+        this.update();
+        CTX.fillStyle = this.color;
+        CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
     }
 };
 
-const PLAYER = {
+var PLAYER = {
     color: "Blue",
     width: 10,
     height: 10,
+    speed: 1,
     xPos: CONFIG.width / 2,
+    radius: 5,
     yPos: CONFIG.height * 0.9
 };
 
-const BOUNDARIES = {
+var BOUNDARIES = {
     right: CONFIG.width - PLAYER.width,
     left: 0,
     up: 0,
-    down: CONFIG.height - PLAYER.height
+    down: CONFIG.height - PLAYER.height,
+    withinVerSpace: function withinVerSpace(value) {
+        return value >= this.up && value <= this.down;
+    },
+    withinHorSpace: function withinHorSpace(value) {
+        return value >= this.left && value <= this.right;
+    }
 }
 
-const BACKGROUND = {
+var BACKGROUND = {
     color: "rgba(0,187,255,.5)",
     thickness: 5,
     spacing: 50,
     speed: .5,
     stripes: [],
-    init() {
+    init: function init() {
         var nstripes = CONFIG.height / (this.spacing + this.thickness);
-
         for (var i = 0; i < nstripes; i++) {
 
             this.stripes.push((this.spacing + this.thickness) * i - 20);
         }
     },
-    render() {
+    render: function render() {
         CTX.fillStyle = this.color;
 
         for (var i = 0; i < this.stripes.length; i++) {
@@ -115,8 +89,6 @@ const BACKGROUND = {
             }
             CTX.fillRect(0, this.stripes[i], CONFIG.width, this.thickness);
         }
-
-
     }
 }
 BACKGROUND.init();
@@ -124,26 +96,34 @@ BACKGROUND.init();
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
 delegate(PLAYER, renderizibles);
 
+var enemies = [];
+
+for (var i = 0; i < 5; i++) {
+    enemies.push(new Enemies("Blue", 10, 10, Math.random() * 10, CONFIG.width * Math.random(), 0, 5));
+}
+TIMER.init();
+
 function main() {
+    // Background color
     CTX.fillStyle = "White";
     CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
+    // Checa se pegou o player
+    Enemies.caughtPlayer(enemies);
+
+    // renderiza
     BACKGROUND.render();
-    // @TODo update no render
-    PLAYER.update();
     PLAYER.render();
+    Enemies.renderAll(enemies);
+    TIMER.render();
 
-
-
-    // @TODO implementar um timer que leva o tempo de processamento dem consideração
-    // caso a quantidade de processamento aumentar
+    // Invoca funções dali tantos segundos
     setTimeout(main, FRAMES_PER_SECOND);
-
-    window.addEventListener('keydown', keydowns);
-    window.addEventListener('keyup', keyups);
 }
 
-// Run game
+window.addEventListener('keydown', keydowns);
+window.addEventListener('keyup', keyups);
+
 main();
 
 function keydowns(evt) {
