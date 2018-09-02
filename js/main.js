@@ -112,10 +112,10 @@ var a = true;
 function main() {
     if (gameOver) {
         CTX.fillStyle = "white";
-        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .65, 150);
+        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
         CTX.font = "50px Arial";
-        CTX.fillText("Game Over: " + TIMER.lastTime + " segundos", CONFIG.width * .20, CONFIG.height*.4);
+        CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height*.4);
     } else  {
         // Background color
         CTX.fillStyle = "Black";
@@ -151,6 +151,9 @@ function click(event) {
 
         // Reset Enemies
         Enemies.list = [];
+
+        //Reset timer
+        TIMER.init();
     }
 }
 

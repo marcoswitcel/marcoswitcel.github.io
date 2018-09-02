@@ -83,25 +83,19 @@ Enemies.action = {
         }
     },
     'lemon': function exec(elm) {
-        var bp1 = elm.yPos > CONFIG.height / 4;
-        var bp2 = elm.yPos > CONFIG.height / 2;
-
-        if (bp2) {
-            ne = Math.random() * 4;
-            if (ne > 2) {
-                elm.speed = 0.8;
+        var bp1 = elm.yPos > CONFIG.height/7;
+        var w2 = CONFIG.width/2;
+        elm.yPos += elm.speed;
+        if (bp1) {
+            elm.speed = 2;
+            if (PLAYER.xPos < w2 && elm.xPos > w2){
+                elm.xPos -= elm.speed;
+            } else if (PLAYER.xPos > w2 && elm.xPos < w2){
                 elm.xPos += elm.speed;
             } else {
-                elm.speed = 0.8;
-                elm.xPos -= elm.speed;
+                elm.speed = 3;
             }
-            elm.yPos += elm.speed;
-        } else if (bp1) {
-            elm.speed = 2;
-            elm.yPos += elm.speed;
-        } else {
-            elm.yPos += elm.speed;
-        }
+        } 
     }
 };
 
