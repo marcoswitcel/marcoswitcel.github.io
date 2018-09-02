@@ -1,6 +1,6 @@
 #Game da GMTK 2018 
 
-Desenvolvido por:&nbsp;
+*Desenvolvido por:*
 [João Marcos](https://github.com/marcoswitcel)
 
 [Gabriel Ullmann](https://github.com/nkinesis)
