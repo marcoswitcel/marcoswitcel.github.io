@@ -27,16 +27,16 @@ Enemies.prototype.render = function render() {
     //CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
     switch (this.type) {
         case "inner":
-            CTX.drawImage(document.querySelector("#ufoRed"), this.xPos - this.radius, this.yPos - this.radius);
+            CTX.drawImage(query("#ufoRed"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
             break;
         case "outer":
-            CTX.drawImage(document.querySelector("#ufoGreen"), this.xPos - this.radius, this.yPos - this.radius);
+            CTX.drawImage(query("#ufoGreen"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
             break;
         case "thunder":
-            CTX.drawImage(document.querySelector("#ufoBlue"), this.xPos - this.radius, this.yPos - this.radius);
+            CTX.drawImage(query("#ufoBlue"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
             break;
         case "lemon":
-            CTX.drawImage(document.querySelector("#ufoYellow"), this.xPos - this.radius, this.yPos - this.radius);
+            CTX.drawImage(query("#ufoYellow"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
             break;
     }
 
