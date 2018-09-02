@@ -67,31 +67,23 @@ var BOUNDARIES = {
 }
 
 var BACKGROUND = {
-    color: "rgba(0,187,255,.5)",
+    color: "White",
     thickness: 5,
     spacing: 50,
-    speed: .5,
+    speed: .1,
     stripes: [],
-    init: function init() {
-        var nstripes = CONFIG.height / (this.spacing + this.thickness);
-        for (var i = 0; i < nstripes; i++) {
-
-            this.stripes.push((this.spacing + this.thickness) * i - 20);
-        }
-    },
     render: function render() {
         CTX.fillStyle = this.color;
-
-        for (var i = 0; i < this.stripes.length; i++) {
-            this.stripes[i] += this.speed;
-            if (this.stripes[i] > CONFIG.height) {
-                this.stripes[i] = 0;
-            }
-            CTX.fillRect(0, this.stripes[i], CONFIG.width, this.thickness);
+        var rw = Math.floor(Math.random() * (CONFIG.width + 1));
+        var rh = Math.floor(Math.random() * (CONFIG.height + 1));
+        //var sl = this.stripes.length;
+        for (var j = 0; j < 10; j++) {
+            rw = Math.floor(Math.random() * (CONFIG.width + 1));
+            rh = Math.floor(Math.random() * (CONFIG.height + 1));
+            CTX.fillRect(rw, rh, this.thickness, this.thickness);
         }
     }
 }
-BACKGROUND.init();
 
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
 delegate(PLAYER, renderizibles);
@@ -101,17 +93,18 @@ for (var i = 0; i < 5; i++) {
 }
 TIMER.init();
 
+var a = true;
 function main() {
     // Background color
-    CTX.fillStyle = "White";
+    CTX.fillStyle = "Black";
     CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
     // Checa se pegou o player
     Enemies.caughtPlayer();
 
     // renderiza
-    BACKGROUND.render();
     PLAYER.render();
+    Particles.renderAll();
     Enemies.renderAll();
     TIMER.render();
 
@@ -134,7 +127,6 @@ function keydowns(evt) {
             break;
         case "ArrowUp":
             up = true;
-
             break;
         case "ArrowDown":
             down = true;
@@ -152,7 +144,6 @@ function keyups(evt) {
             break;
         case "ArrowUp":
             up = false;
-
             break;
         case "ArrowDown":
             down = false;

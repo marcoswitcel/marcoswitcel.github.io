@@ -40,7 +40,6 @@ Enemies.prototype.update = function update() {
 };
 Enemies.prototype.render = function render() {
     this.update();
-
     CTX.fillStyle = this.color;
     CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
 };
@@ -72,11 +71,11 @@ Enemies.spawn = function renderList() {
         for (var i = 0; i < ne; i++) {
             var rt = Math.floor(Math.random() * 9);
             if (rt > 0 && rt <= 3) {
-                this.list.push(new Enemies("red", 10, 10, 2, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("red", 10, 10, 1, CONFIG.width * Math.random(), 0));
             } else if (rt > 3 && rt <= 6) {
-                this.list.push(new Enemies("green", 40, 40, 10, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("green", 40, 40, 5, CONFIG.width * Math.random(), 0));
             } else if (rt > 5 && rt <= 8) {
-                this.list.push(new Enemies("blue", 80, 80, 3, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("blue", 80, 80, 1.5, CONFIG.width * Math.random(), 0));
             }
         }
     }
@@ -86,6 +85,8 @@ Enemies.caughtPlayer = function caughtPlayer() {
     for (var i = 0; i < this.list.length; i++) {
         if (isIntersecting(this.list[i], PLAYER)) {
             console.log("colidiu");
+            var audio = new Audio('assets/explosion.ogg');
+            audio.play();
             break;
         }
     }
