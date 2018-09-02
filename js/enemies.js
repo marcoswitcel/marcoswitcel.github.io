@@ -1,28 +1,3 @@
-function isIntersecting(p1, p2) {
-    var
-        ver = Math.abs(p1.yPos - p2.yPos),
-        hor = Math.abs(p1.xPos - p2.xPos);
-    ver = Math.pow(ver, 2);
-    hor = Math.pow(hor, 2);
-
-    return (Math.sqrt(ver + hor)) <= p1.radius + p2.radius
-}
-
-var TIMER = {
-    initialTime: 0,
-    init: function init() {
-        this.initialTime = (new Date()).getTime();
-    },
-    getCurrentTime: function getCurrentTime() {
-        return (((new Date()).getTime() - this.initialTime) / 1000).toFixed(2);
-    },
-    render: function render() {
-        CTX.fillStyle = "Black";
-        CTX.font = "30px Arial";
-        CTX.fillText(this.getCurrentTime(), 40, CONFIG.height * .95);
-    }
-}
-
 function Enemies(color, width, height, speed, xPos, yPos, radius) {
     this.color = color;
     this.width = width;
@@ -31,18 +6,25 @@ function Enemies(color, width, height, speed, xPos, yPos, radius) {
     this.xPos = xPos;
     this.yPos = yPos;
     this.radius = 5;
+    if (typeof radius !== "undefined") {
+        this.radius = radius;
+    }
 }
-
-Enemies.list = [];
-
 Enemies.prototype.update = function update() {
     this.yPos += this.speed;
 };
 Enemies.prototype.render = function render() {
     this.update();
     CTX.fillStyle = this.color;
-    CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+    //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+    CTX.beginPath();
+    CTX.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, 2 * Math.PI);
+    CTX.fill();
 };
+
+/* Atributos estáticos */
+
+Enemies.list = [];
 
 Enemies.renderAll = function renderList() {
     this.check();
@@ -71,11 +53,11 @@ Enemies.spawn = function renderList() {
         for (var i = 0; i < ne; i++) {
             var rt = Math.floor(Math.random() * 9);
             if (rt > 0 && rt <= 3) {
-                this.list.push(new Enemies("red", 10, 10, 1, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("red", 10, 10, 2, CONFIG.width * Math.random(), 0, 5));
             } else if (rt > 3 && rt <= 6) {
-                this.list.push(new Enemies("green", 40, 40, 5, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("green", 40, 40, 10, CONFIG.width * Math.random(), 0, 20));
             } else if (rt > 5 && rt <= 8) {
-                this.list.push(new Enemies("blue", 80, 80, 1.5, CONFIG.width * Math.random(), 0));
+                this.list.push(new Enemies("blue", 80, 80, 3, CONFIG.width * Math.random(), 0, 40));
             }
         }
     }

@@ -14,8 +14,19 @@ var left = false,
     down = false,
     up = false;
 
-function delegate(who, to) {
-    who.__proto__ = to;
+var TIMER = {
+    initialTime: 0,
+    init: function init() {
+        this.initialTime = (new Date()).getTime();
+    },
+    getCurrentTime: function getCurrentTime() {
+        return (((new Date()).getTime() - this.initialTime) / 1000).toFixed(2);
+    },
+    render: function render() {
+        CTX.fillStyle = "Black";
+        CTX.font = "30px Arial";
+        CTX.fillText(this.getCurrentTime(), 40, CONFIG.height * .95);
+    }
 }
 
 var renderizibles = {
@@ -39,7 +50,10 @@ var renderizibles = {
     render: function render() {
         this.update();
         CTX.fillStyle = this.color;
-        CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+        //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+        CTX.beginPath();
+        CTX.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, 2 * Math.PI);
+        CTX.fill();
     }
 };
 
