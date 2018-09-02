@@ -8,6 +8,7 @@ var CTX = CANVAS.getContext("2d");
 CANVAS.width = CONFIG.width;
 CANVAS.height = CONFIG.height
 var FRAMES_PER_SECOND = 1000 / 600;
+var gameOver = false;
 
 var left = false,
     right = false,
@@ -16,6 +17,7 @@ var left = false,
 
 var TIMER = {
     initialTime: 0,
+    lastTime:0,
     init: function init() {
         this.initialTime = (new Date()).getTime();
     },
@@ -23,9 +25,10 @@ var TIMER = {
         return (((new Date()).getTime() - this.initialTime) / 1000).toFixed(2);
     },
     render: function render() {
-        CTX.fillStyle = "Black";
+        CTX.fillStyle = "White";
         CTX.font = "30px Arial";
-        CTX.fillText(this.getCurrentTime(), 40, CONFIG.height * .95);
+        this.lastTime = this.getCurrentTime();
+        CTX.fillText(this.lastTime, 40, CONFIG.height * .95);
     }
 }
 
@@ -58,12 +61,12 @@ var renderizibles = {
 };
 
 var PLAYER = {
-    color: "Blue",
+    color: "Yellow",
     width: 10,
     height: 10,
     speed: 1,
     xPos: CONFIG.width / 2,
-    radius: 5,
+    radius: 10,
     yPos: CONFIG.height * 0.9
 };
 
@@ -87,6 +90,7 @@ var BACKGROUND = {
     speed: .1,
     stripes: [],
     render: function render() {
+        /* Função aposentada */
         CTX.fillStyle = this.color;
         var rw = Math.floor(Math.random() * (CONFIG.width + 1));
         var rh = Math.floor(Math.random() * (CONFIG.height + 1));
@@ -106,30 +110,52 @@ TIMER.init();
 
 var a = true;
 function main() {
-    // Background color
-    CTX.fillStyle = "Black";
-    CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
+    if (gameOver) {
+        CTX.fillStyle = "white";
+        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .65, 150);
+        CTX.fillStyle = "Black";
+        CTX.font = "50px Arial";
+        CTX.fillText("Game Over: " + TIMER.lastTime + " segundos", CONFIG.width * .20, CONFIG.height*.4);
+    } else  {
+        // Background color
+        CTX.fillStyle = "Black";
+        CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
-    // Checa se pegou o player
-    Enemies.caughtPlayer();
+        // Checa se pegou o player
+        Enemies.caughtPlayer();
 
-    // renderiza
-    PLAYER.render();
-    Particles.renderAll();
-    Enemies.renderAll();
-    TIMER.render();
-
+        // renderiza
+        PLAYER.render();
+        Particles.renderAll();
+        Enemies.renderAll();
+        TIMER.render();
+    }
+    
     // Invoca funções dali tantos segundos
     setTimeout(main, FRAMES_PER_SECOND);
 }
 
 window.addEventListener('keydown', keydowns);
 window.addEventListener('keyup', keyups);
+window.addEventListener('click', click);
 
 main();
 
-function keydowns(evt) {
-    switch (evt.key) {
+function click(event) {
+    if (gameOver) {
+        gameOver = false;
+     
+        // reset do PLAYER
+        PLAYER.xPos = CONFIG.width / 2;
+        PLAYER.yPos = CONFIG.height * 0.9;
+
+        // Reset Enemies
+        Enemies.list = [];
+    }
+}
+
+function keydowns(event) {
+    switch (event.key) {
         case "ArrowLeft":
             left = true;
             break;
@@ -145,8 +171,8 @@ function keydowns(evt) {
     }
 }
 
-function keyups(evt) {
-    switch (evt.key) {
+function keyups(event) {
+    switch (event.key) {
         case "ArrowLeft":
             left = false;
             break;

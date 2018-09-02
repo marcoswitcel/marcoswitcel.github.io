@@ -158,9 +158,9 @@ Enemies.getActionConfig = function get(num) {
 Enemies.caughtPlayer = function caughtPlayer() {
     for (var i = 0; i < this.list.length; i++) {
         if (isIntersecting(this.list[i], PLAYER)) {
-            console.log("colidiu");
             var audio = new Audio('assets/explosion.ogg');
             audio.play();
+            gameOver = true;
             break;
         }
     }
