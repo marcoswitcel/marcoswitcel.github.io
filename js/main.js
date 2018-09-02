@@ -115,7 +115,7 @@ function main() {
         CTX.fillStyle = "White";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
         CTX.fillStyle = "Black";
-        CTX.font = "60px Arial";
+        CTX.font = "30px Arial";
         CTX.fillText("SPACE EVADERS", CONFIG.width * .05, CONFIG.height * .2);
         CTX.fillText("ARROW KEYS TO MOVE", CONFIG.width * .05, CONFIG.height * .4);
         CTX.fillText("PRESS ENTER TO PLAY", CONFIG.width * .05, CONFIG.height * .6);
@@ -125,7 +125,7 @@ function main() {
         CTX.fillStyle = "white";
         CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
-        CTX.font = "50px Arial";
+        CTX.font = "35px Arial";
         CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height*.4);
         CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
     } else  {
