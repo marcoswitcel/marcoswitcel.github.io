@@ -18,7 +18,7 @@ var left = false,
 
 var TIMER = {
     initialTime: 0,
-    lastTime:0,
+    lastTime: 0,
     init: function init() {
         this.initialTime = (new Date()).getTime();
     },
@@ -109,9 +109,14 @@ delegate(PLAYER, renderizibles);
 
 TIMER.init();
 
-var a = true;
+var spriteNames = ["ufoRed", "ufoGreen", "ufoBlue", "ufoYellow", "player"];
+var sprites = [];
+var globalLoaded = false;
+var sl = spriteNames.length;
+
 function main() {
-    if (mainMenu){
+
+    if (mainMenu) {
         CTX.fillStyle = "White";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
         CTX.fillStyle = "Black";
@@ -120,15 +125,15 @@ function main() {
         CTX.fillText("ARROW KEYS TO MOVE", CONFIG.width * .05, CONFIG.height * .4);
         CTX.fillText("PRESS ENTER TO PLAY", CONFIG.width * .05, CONFIG.height * .6);
         CTX.font = "20px Arial";
-        CTX.fillText("Music by SpiderDave, SFX by TinyWorlds", CONFIG.width * .05, CONFIG.height * .8);   
+        CTX.fillText("Music by SpiderDave, SFX by TinyWorlds", CONFIG.width * .05, CONFIG.height * .8);
     } else if (gameOver) {
         CTX.fillStyle = "white";
-        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .75, 150);
+        CTX.fillRect(CONFIG.width * .18, CONFIG.height * .3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
         CTX.font = "50px Arial";
-        CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height*.4);
+        CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height * .4);
         CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
-    } else  {
+    } else {
         // Background color
         CTX.fillStyle = "Black";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
@@ -142,7 +147,7 @@ function main() {
         Enemies.renderAll();
         TIMER.render();
     }
-    
+
     // Invoca funções dali tantos segundos
     setTimeout(main, FRAMES_PER_SECOND);
 }
@@ -154,7 +159,7 @@ window.addEventListener('click', menuInteraction);
 main();
 
 function menuInteraction(event) {
-    if (mainMenu){
+    if (mainMenu) {
         mainMenu = false;
         reset();
     } else if (gameOver) {
@@ -173,7 +178,7 @@ function reset() {
 
     //Reset timer
     TIMER.init();
-} 
+}
 
 function keydowns(event) {
     switch (event.key) {

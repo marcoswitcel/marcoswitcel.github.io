@@ -153,6 +153,7 @@ Enemies.caughtPlayer = function caughtPlayer() {
     for (var i = 0; i < this.list.length; i++) {
         if (isIntersecting(this.list[i], PLAYER)) {
             var audio = new Audio('assets/explosion.ogg');
+            audio.volume = 0.2;
             audio.play();
             gameOver = true;
             break;
