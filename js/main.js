@@ -102,9 +102,6 @@ var BACKGROUND = {
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
 delegate(PLAYER, renderizibles);
 
-for (var i = 0; i < 5; i++) {
-    Enemies.list.push(new Enemies("Blue", 10, 10, Math.random() * 10, CONFIG.width * Math.random(), 0, 5));
-}
 TIMER.init();
 
 var a = true;
