@@ -11,6 +11,7 @@
     <script>
         var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
         if (!isChrome) {
+            
             $('#iframeAudio').remove()
         }
     </script>
@@ -25,7 +26,13 @@
     <canvas id="canvas" style="box-shadow: 0 0 5px rgba(0, 0, 0, .5)">
         Your browser does not support the canvas tag
     </canvas>
-    <img id="ufoBlue" src="assets/ufoBlue.png" style="opacity:0">
+    <div style="float:right;height:0;overflow:hidden">
+        <img id="ufoBlue" src="assets/ufoBlue.png" style="opacity:0">
+        <img id="ufoRed" src="assets/ufoRed.png" style="opacity:0">
+        <img id="ufoGreen" src="assets/ufoGreen.png" style="opacity:0">
+        <img id="ufoYellow" src="assets/ufoYellow.png" style="opacity:0">
+        <img id="player" src="assets/player.png" style="opacity:0">
+    </div>
     <script src="/js/particles.js"></script>
     <script src="/js/utils.js"></script>
     <script src="/js/enemies.js"></script>

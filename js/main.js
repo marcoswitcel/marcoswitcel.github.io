@@ -1,6 +1,6 @@
 "use strict";
 var CONFIG = {
-    width: 1050,
+    width: 500,
     height: 600
 };
 var CANVAS = document.querySelector("#canvas");
@@ -35,19 +35,37 @@ var TIMER = {
 
 var renderizibles = {
     update: function update() {
-        var speed = this.speed;
+        if (!left && !right && this.speedX !==  0) {
+            this.speedX += -1 * this.desc * (this.speedX/Math.abs(this.speedX));
+        }
+        if (!up && !down && this.speedY !==  0) {
+            this.speedY += -1 * this.desc * (this.speedY/Math.abs(this.speedY));
+        }
+        if (left) {
+            this.speedX -= this.accel;
+        }
+        if (right) {
+            this.speedX += this.accel;
+        }
+        if (up) {
+            this.speedY -= this.accel;
+        }
+        if (down) {
+            this.speedY += this.accel;
+        }
 
-        if (left && BOUNDARIES.withinHorSpace(PLAYER.xPos - speed)) {
-            PLAYER.xPos -= speed;
+        if (Math.abs(this.speedX) > this.maxSpeed) {
+            this.speedX = this.maxSpeed * (this.speedX/Math.abs(this.speedX));
         }
-        if (right && BOUNDARIES.withinHorSpace(PLAYER.xPos + speed)) {
-            PLAYER.xPos += speed;
+        if (Math.abs(this.speedY) > this.maxSpeed) {
+            this.speedY = this.maxSpeed * (this.speedY/Math.abs(this.speedY));
         }
-        if (up && BOUNDARIES.withinVerSpace(PLAYER.yPos - speed)) {
-            PLAYER.yPos -= speed;
+
+        if (BOUNDARIES.withinHorSpace(PLAYER.xPos + this.speedX)) {
+            PLAYER.xPos += this.speedX;
         }
-        if (down && BOUNDARIES.withinVerSpace(PLAYER.yPos + speed)) {
-            PLAYER.yPos += speed;
+        if (BOUNDARIES.withinVerSpace(PLAYER.yPos + this.speedY)) {
+            PLAYER.yPos += this.speedY;
         }
     },
 
@@ -56,26 +74,30 @@ var renderizibles = {
         CTX.fillStyle = this.color;
         //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
         CTX.beginPath();
-        CTX.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, 2 * Math.PI);
+        CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
         CTX.fill();
     }
 };
 
 var PLAYER = {
-    color: "Yellow",
+    color: "#135050",
     width: 10,
     height: 10,
-    speed: 1,
+    accel: .1,
+    desc: .03,    
+    speedX: 0,
+    speedY: 0,
+    maxSpeed: 2,
     xPos: CONFIG.width / 2,
     radius: 10,
     yPos: CONFIG.height * 0.9
 };
 
 var BOUNDARIES = {
-    right: CONFIG.width - PLAYER.width,
-    left: 0,
-    up: 0,
-    down: CONFIG.height - PLAYER.height,
+    right: CONFIG.width - PLAYER.radius,
+    left: 0  + PLAYER.radius,
+    up: 0  + PLAYER.radius,
+    down: CONFIG.height - PLAYER.radius,
     withinVerSpace: function withinVerSpace(value) {
         return value >= this.up && value <= this.down;
     },
@@ -120,7 +142,7 @@ function main() {
         CTX.fillStyle = "White";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
         CTX.fillStyle = "Black";
-        CTX.font = "60px Arial";
+        CTX.font = "30px Arial";
         CTX.fillText("SPACE EVADERS", CONFIG.width * .05, CONFIG.height * .2);
         CTX.fillText("ARROW KEYS TO MOVE", CONFIG.width * .05, CONFIG.height * .4);
         CTX.fillText("PRESS ENTER TO PLAY", CONFIG.width * .05, CONFIG.height * .6);
@@ -130,12 +152,12 @@ function main() {
         CTX.fillStyle = "white";
         CTX.fillRect(CONFIG.width * .18, CONFIG.height * .3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
-        CTX.font = "50px Arial";
-        CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height * .4);
+        CTX.font = "35px Arial";
+        CTX.fillText("GAME OVER: " + TIMER.lastTime + " S", CONFIG.width * .2, CONFIG.height*.4);
         CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
     } else {
         // Background color
-        CTX.fillStyle = "Black";
+        CTX.fillStyle = "#281b3d";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
         // Checa se pegou o player

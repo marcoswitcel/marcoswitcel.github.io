@@ -24,7 +24,22 @@ Enemies.prototype.render = function render() {
     CTX.fillStyle = this.color;
     //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
     CTX.beginPath();
-    CTX.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, 2 * Math.PI);
+    //CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
+    switch (this.type) {
+        case "inner":
+            CTX.drawImage(document.querySelector("#ufoRed"), this.xPos - this.radius, this.yPos - this.radius);
+            break;
+        case "outer":
+            CTX.drawImage(document.querySelector("#ufoGreen"), this.xPos - this.radius, this.yPos - this.radius);
+            break;
+        case "thunder":
+            CTX.drawImage(document.querySelector("#ufoBlue"), this.xPos - this.radius, this.yPos - this.radius);
+            break;
+        case "lemon":
+            CTX.drawImage(document.querySelector("#ufoYellow"), this.xPos - this.radius, this.yPos - this.radius);
+            break;
+    }
+
     CTX.fill();
 };
 
@@ -83,19 +98,19 @@ Enemies.action = {
         }
     },
     'lemon': function exec(elm) {
-        var bp1 = elm.yPos > CONFIG.height/7;
-        var w2 = CONFIG.width/2;
+        var bp1 = elm.yPos > CONFIG.height / 7;
+        var w2 = CONFIG.width / 2;
         elm.yPos += elm.speed;
         if (bp1) {
             elm.speed = 2;
-            if (PLAYER.xPos < w2 && elm.xPos > w2){
+            if (PLAYER.xPos < w2 && elm.xPos > w2) {
                 elm.xPos -= elm.speed;
-            } else if (PLAYER.xPos > w2 && elm.xPos < w2){
+            } else if (PLAYER.xPos > w2 && elm.xPos < w2) {
                 elm.xPos += elm.speed;
             } else {
                 elm.speed = 3;
             }
-        } 
+        }
     }
 };
 
@@ -103,7 +118,8 @@ Enemies.spawn = function renderList() {
     if (this.list.length < 4) {
         ne = this.rand(1, 4); //number of enemies
         conf = Enemies.getActionConfig(this.rand(1, 3));
-        var spacing = 0, height, rt;
+        var spacing = 0,
+            height, rt;
         for (var i = 0; i < ne; i++) {
             height = this.rand(-300, 40);
             rt = this.rand(1, 10);
