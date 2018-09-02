@@ -55,7 +55,7 @@ Enemies.spawn = function renderList() {
             if (rt > 0 && rt <= 3) {
                 this.list.push(new Enemies("red", 10, 10, 2, CONFIG.width * Math.random(), 0, 5));
             } else if (rt > 3 && rt <= 6) {
-                this.list.push(new Enemies("green", 40, 40, 10, CONFIG.width * Math.random(), 0, 20));
+                this.list.push(new Enemies("green", 40, 40, 5, CONFIG.width * Math.random(), 0, 20));
             } else if (rt > 5 && rt <= 8) {
                 this.list.push(new Enemies("blue", 80, 80, 3, CONFIG.width * Math.random(), 0, 40));
             }

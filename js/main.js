@@ -1,6 +1,6 @@
 "use strict";
 var CONFIG = {
-    width: 1050,
+    width: 500,
     height: 600
 };
 var CANVAS = document.querySelector("#canvas");
@@ -61,10 +61,10 @@ var renderizibles = {
 };
 
 var PLAYER = {
-    color: "Yellow",
+    color: "#135050",
     width: 10,
     height: 10,
-    speed: 1,
+    speed: 2,
     xPos: CONFIG.width / 2,
     radius: 10,
     yPos: CONFIG.height * 0.9
@@ -121,7 +121,7 @@ function main() {
         CTX.fillText("Game Over: " + TIMER.lastTime + " segundos", CONFIG.width * .20, CONFIG.height*.4);
     } else  {
         // Background color
-        CTX.fillStyle = "Black";
+        CTX.fillStyle = "#281b3d";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
         // Checa se pegou o player

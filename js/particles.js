@@ -40,6 +40,6 @@ Particles.check = function renderList() {
 
 Particles.spawn = function renderList() {
     if (this.list.length < 50) {
-        Particles.list.push(new Particles("White", 4, 4, .5, CONFIG.width * Math.random(), -(CONFIG.height * Math.random()), 5));
+        Particles.list.push(new Particles("#a1e9f7", 4, 4, .5, CONFIG.width * Math.random(), -(CONFIG.height * Math.random()), 5));
     }
 };
