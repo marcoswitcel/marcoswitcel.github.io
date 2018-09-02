@@ -73,10 +73,6 @@ var renderizibles = {
     render: function render() {
         this.update();
         CTX.fillStyle = this.color;
-        //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
-        //CTX.beginPath();
-        //CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
-        //CTX.fill();
         CTX.drawImage(query("#player"), 0, 0, 112, 75, this.xPos - 56, this.yPos - 37.5, this.radius*2, (this.radius*2)*0.67);
     }
 };
@@ -119,7 +115,6 @@ var BACKGROUND = {
         CTX.fillStyle = this.color;
         var rw = Math.floor(Math.random() * (CONFIG.width + 1));
         var rh = Math.floor(Math.random() * (CONFIG.height + 1));
-        //var sl = this.stripes.length;
         for (var j = 0; j < 10; j++) {
             rw = Math.floor(Math.random() * (CONFIG.width + 1));
             rh = Math.floor(Math.random() * (CONFIG.height + 1));
@@ -141,10 +136,8 @@ var sl = spriteNames.length;
 function main() {
 
     if (mainMenu) {
-        CTX.fillStyle = "White";
+        CTX.fillStyle = "#281b3d";
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
-        CTX.fillStyle = "Black";
-        CTX.font = "30px Arial";
         CTX.drawImage(document.querySelector("#screenMain"), 0, 0);
     } else if (gameOver) {
         CTX.fillStyle = "White";
@@ -153,6 +146,8 @@ function main() {
         CTX.font = "35px Arial";
         CTX.fillText("GAME OVER: " + TIMER.lastTime + " S", CONFIG.width * .2, CONFIG.height*.4);
         CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
+    } else if (credits) {
+        CTX.drawImage(document.querySelector("#screenCredits"), 0, 0);
     } else {
         // Background color
         CTX.fillStyle = "#281b3d";
@@ -181,11 +176,9 @@ main();
 function menuInteraction(event) {
     if (mainMenu) {
         mainMenu = false;
-        credits = false;
         reset();
     } else if (gameOver) {
         gameOver = false;
-        credits = false;
         reset();
     } 
 }
@@ -203,6 +196,7 @@ function reset() {
 }
 
 function keydowns(event) {
+    console.log(event.key);
     switch (event.key) {
         case "ArrowLeft":
             left = true;
@@ -219,8 +213,14 @@ function keydowns(event) {
         case "Enter":
             menuInteraction(null);
             break;
-        case "C":
-            menuInteraction(null);
+        case "c":
+            if (!credits && mainMenu) {
+                mainMenu = false;
+                credits = true;
+            } else if (credits) {
+                mainMenu = true;
+                credits = false;
+            }
             break;
     }
 }

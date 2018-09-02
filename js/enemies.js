@@ -12,7 +12,6 @@ function Enemies(color, width, height, speed, xPos, yPos, radius, type) {
     }
 }
 Enemies.prototype.update = function update() {
-    // this.yPos += this.speed;
     if (!this.type) {
         this.type = "inner";
     }
@@ -22,9 +21,7 @@ Enemies.prototype.update = function update() {
 Enemies.prototype.render = function render() {
     this.update();
     CTX.fillStyle = this.color;
-    //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
     CTX.beginPath();
-    //CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
     switch (this.type) {
         case "inner":
             CTX.drawImage(query("#ufoRed"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
@@ -115,7 +112,7 @@ Enemies.action = {
 };
 
 Enemies.spawn = function renderList() {
-    if (this.list.length < 4) {
+    if (this.list.length < 3) {
         ne = this.rand(1, 4); //number of enemies
         conf = Enemies.getActionConfig(this.rand(1, 3));
         var spacing = 0,
@@ -127,7 +124,7 @@ Enemies.spawn = function renderList() {
                 this.list.push(new Enemies("red", 10, 10, 0.5, this.getQuadrant(conf[0]), height, 30, "inner"));
             } else if (rt > 3 && rt <= 6) {
                 this.list.push(new Enemies("green", 10, 10, 3, this.getQuadrant(conf[1]), height, 30, "outer"));
-            } else if (rt > 5 && rt <= 8) {
+            } else if (rt > 6 && rt <= 8) {
                 this.list.push(new Enemies("blue", 10, 10, 1, PLAYER.xPos + spacing, height, 40, "thunder"));
             } else if (rt > 8 && rt <= 10) {
                 this.list.push(new Enemies("yellow", 10, 10, 1.5, this.getQuadrant(conf[2]), height, 30, "lemon"));
@@ -144,13 +141,11 @@ Enemies.rand = function rand(min, max) {
 Enemies.getQuadrant = function get() {
     var qd = this.rand(1, 4);
     if (qd == 1) {
-        return this.rand(0, CONFIG.width * 0.25);
+        return this.rand(0, CONFIG.width * 0.33);
     } else if (qd == 2) {
-        return this.rand(CONFIG.width * 0.25, CONFIG.width * 0.5);
-    } else if (qd == 3) {
-        return this.rand(CONFIG.width * 0.5, CONFIG.width * 0.75);
+        return this.rand(CONFIG.width * 0.33, CONFIG.width * 0.67);
     } else {
-        return this.rand(CONFIG.width * 0.75, CONFIG.width);
+        return this.rand(CONFIG.width * 0.67, CONFIG.width);
     }
 }
 
@@ -159,9 +154,9 @@ Enemies.getActionConfig = function get(num) {
         case 1:
             return [1, 2, 3];
         case 2:
-            return [4, 3, 2];
+            return [1, 3, 2];
         case 3:
-            return [3, 4, 1];
+            return [3, 2, 1];
     }
 }
 
