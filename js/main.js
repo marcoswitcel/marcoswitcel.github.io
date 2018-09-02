@@ -9,6 +9,7 @@ CANVAS.width = CONFIG.width;
 CANVAS.height = CONFIG.height
 var FRAMES_PER_SECOND = 1000 / 600;
 var gameOver = false;
+var mainMenu = true;
 
 var left = false,
     right = false,
@@ -106,19 +107,27 @@ var BACKGROUND = {
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
 delegate(PLAYER, renderizibles);
 
-for (var i = 0; i < 5; i++) {
-    Enemies.list.push(new Enemies("Blue", 10, 10, Math.random() * 10, CONFIG.width * Math.random(), 0, 5));
-}
 TIMER.init();
 
 var a = true;
 function main() {
-    if (gameOver) {
+    if (mainMenu){
+        CTX.fillStyle = "White";
+        CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
+        CTX.fillStyle = "Black";
+        CTX.font = "60px Arial";
+        CTX.fillText("SPACE EVADERS", CONFIG.width * .05, CONFIG.height * .2);
+        CTX.fillText("ARROW KEYS TO MOVE", CONFIG.width * .05, CONFIG.height * .4);
+        CTX.fillText("PRESS ENTER TO PLAY", CONFIG.width * .05, CONFIG.height * .6);
+        CTX.font = "20px Arial";
+        CTX.fillText("Music by SpiderDave, SFX by TinyWorlds", CONFIG.width * .05, CONFIG.height * .8);   
+    } else if (gameOver) {
         CTX.fillStyle = "white";
-        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .65, 150);
+        CTX.fillRect(CONFIG.width * .18, CONFIG.height*.3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
         CTX.font = "50px Arial";
-        CTX.fillText("Game Over: " + TIMER.lastTime + " segundos", CONFIG.width * .20, CONFIG.height*.4);
+        CTX.fillText("GAME OVER: " + TIMER.lastTime + " SECONDS", CONFIG.width * .2, CONFIG.height*.4);
+        CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
     } else  {
         // Background color
         CTX.fillStyle = "#281b3d";
@@ -140,22 +149,31 @@ function main() {
 
 window.addEventListener('keydown', keydowns);
 window.addEventListener('keyup', keyups);
-window.addEventListener('click', click);
+window.addEventListener('click', menuInteraction);
 
 main();
 
-function click(event) {
-    if (gameOver) {
+function menuInteraction(event) {
+    if (mainMenu){
+        mainMenu = false;
+        reset();
+    } else if (gameOver) {
         gameOver = false;
-     
-        // reset do PLAYER
-        PLAYER.xPos = CONFIG.width / 2;
-        PLAYER.yPos = CONFIG.height * 0.9;
-
-        // Reset Enemies
-        Enemies.list = [];
+        reset();
     }
 }
+
+function reset() {
+    // reset do PLAYER
+    PLAYER.xPos = CONFIG.width / 2;
+    PLAYER.yPos = CONFIG.height * 0.9;
+
+    // Reset Enemies
+    Enemies.list = [];
+
+    //Reset timer
+    TIMER.init();
+} 
 
 function keydowns(event) {
     switch (event.key) {
@@ -170,6 +188,9 @@ function keydowns(event) {
             break;
         case "ArrowDown":
             down = true;
+            break;
+        case "Enter":
+            menuInteraction(null);
             break;
     }
 }
