@@ -112,7 +112,7 @@ Enemies.action = {
 };
 
 Enemies.spawn = function renderList() {
-    if (this.list.length < 3) {
+    if (this.list.length < 2) {
         ne = this.rand(1, 4); //number of enemies
         conf = Enemies.getActionConfig(this.rand(1, 3));
         var spacing = 0,
@@ -164,7 +164,7 @@ Enemies.caughtPlayer = function caughtPlayer() {
     for (var i = 0; i < this.list.length; i++) {
         if (isIntersecting(this.list[i], PLAYER)) {
             var audio = new Audio('assets/explosion.ogg');
-            audio.volume = 0.2;
+            audio.volume = 0.5;
             audio.play();
             gameOver = true;
             break;
