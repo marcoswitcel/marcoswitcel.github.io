@@ -24,7 +24,7 @@ Enemies.prototype.render = function render() {
     CTX.fillStyle = this.color;
     //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
     CTX.beginPath();
-    CTX.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, 2 * Math.PI);
+    CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
     CTX.fill();
 };
 
