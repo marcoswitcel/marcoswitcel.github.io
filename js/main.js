@@ -81,8 +81,8 @@ var PLAYER = {
     color: "#135050",
     width: 10,
     height: 10,
-    accel: .1,
-    desc: .03,    
+    accel: 0.1,
+    desc: 0.03,    
     speedX: 0,
     speedY: 0,
     maxSpeed: 2,
@@ -92,10 +92,10 @@ var PLAYER = {
 };
 
 var BOUNDARIES = {
-    right: CONFIG.width - PLAYER.radius,
-    left: 0  + PLAYER.radius,
+    right: CONFIG.width,
+    left: 0  + PLAYER.radius*2,
     up: 0  + PLAYER.radius,
-    down: CONFIG.height - PLAYER.radius,
+    down: CONFIG.height,
     withinVerSpace: function withinVerSpace(value) {
         return value >= this.up && value <= this.down;
     },
@@ -121,6 +121,21 @@ var BACKGROUND = {
             CTX.fillRect(rw, rh, this.thickness, this.thickness);
         }
     }
+};
+
+var Color = {
+    /* hsl(263, 39%, 17%) */
+    /* #281b3d */
+    size: 10,
+    dif: 0,
+    increment: 0.0005,        
+    getBGColor : function getBGColor() {
+        if (Math.abs(this.dif) > this.size) {
+            this.increment *= -1;
+        }
+        this.dif += this.increment;
+        return "hsl(263, 39%, " + (17 + this.dif) + "%)";
+    }
 }
 
 // Agora PLAYER pode fazer uso dos métodos de renderizibles
@@ -141,16 +156,16 @@ function main() {
         CTX.drawImage(document.querySelector("#screenMain"), 0, 0);
     } else if (gameOver) {
         CTX.fillStyle = "White";
-        CTX.fillRect(CONFIG.width * .18, CONFIG.height * .3, CONFIG.width * .75, 150);
+        CTX.fillRect(CONFIG.width * 0.11, CONFIG.height * 0.3, CONFIG.width * 0.78, 150);
         CTX.fillStyle = "Black";
         CTX.font = "35px Arial";
-        CTX.fillText("GAME OVER: " + TIMER.lastTime + " S", CONFIG.width * .2, CONFIG.height*.4);
-        CTX.fillText("PRESS ENTER", CONFIG.width * .2, CONFIG.height * .5);
+        CTX.fillText("GAME OVER: " + TIMER.lastTime + " S", CONFIG.width * 0.15, CONFIG.height * 0.4);
+        CTX.fillText("PRESS ENTER", CONFIG.width * 0.15, CONFIG.height * 0.5);
     } else if (credits) {
         CTX.drawImage(document.querySelector("#screenCredits"), 0, 0);
     } else {
         // Background color
-        CTX.fillStyle = "#281b3d";
+        CTX.fillStyle = Color.getBGColor();
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
 
         // Checa se pegou o player
@@ -196,7 +211,6 @@ function reset() {
 }
 
 function keydowns(event) {
-    console.log(event.key);
     switch (event.key) {
         case "ArrowLeft":
             left = true;
