@@ -10,6 +10,7 @@ CANVAS.height = CONFIG.height
 var FRAMES_PER_SECOND = 1000 / 600;
 var gameOver = false;
 var mainMenu = true;
+var credits = false;
 
 var left = false,
     right = false,
@@ -143,11 +144,7 @@ function main() {
         CTX.fillRect(0, 0, CONFIG.width, CONFIG.height);
         CTX.fillStyle = "Black";
         CTX.font = "30px Arial";
-        CTX.fillText("SPACE EVADERS", CONFIG.width * .05, CONFIG.height * .2);
-        CTX.fillText("ARROW KEYS TO MOVE", CONFIG.width * .05, CONFIG.height * .4);
-        CTX.fillText("PRESS ENTER TO PLAY", CONFIG.width * .05, CONFIG.height * .6);
-        CTX.font = "20px Arial";
-        CTX.fillText("Music by SpiderDave, SFX by TinyWorlds", CONFIG.width * .05, CONFIG.height * .8);
+        CTX.drawImage(document.querySelector("#screenMain"), 0, 0);
     } else if (gameOver) {
         CTX.fillStyle = "white";
         CTX.fillRect(CONFIG.width * .18, CONFIG.height * .3, CONFIG.width * .75, 150);
@@ -183,11 +180,13 @@ main();
 function menuInteraction(event) {
     if (mainMenu) {
         mainMenu = false;
+        credits = false;
         reset();
     } else if (gameOver) {
         gameOver = false;
+        credits = false;
         reset();
-    }
+    } 
 }
 
 function reset() {
@@ -217,6 +216,9 @@ function keydowns(event) {
             down = true;
             break;
         case "Enter":
+            menuInteraction(null);
+            break;
+        case "C":
             menuInteraction(null);
             break;
     }

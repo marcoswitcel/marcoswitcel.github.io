@@ -11,8 +11,8 @@
     <script>
         var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
         if (!isChrome) {
-            
-            $('#iframeAudio').remove()
+            var fa = document.querySelector('#iframeAudio');
+            fa.parentNode.removeChild(fa);
         }
     </script>
 </head>
@@ -32,6 +32,8 @@
         <img id="ufoGreen" src="assets/ufoGreen.png" style="opacity:0">
         <img id="ufoYellow" src="assets/ufoYellow.png" style="opacity:0">
         <img id="player" src="assets/player.png" style="opacity:0">
+        <img id="screenMain" src="assets/main.png" style="opacity:0">
+        <img id="screenCredits" src="assets/credits.png" style="opacity:0">
     </div>
     <script src="/js/particles.js"></script>
     <script src="/js/utils.js"></script>
