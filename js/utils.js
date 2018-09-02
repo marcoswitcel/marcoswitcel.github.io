@@ -11,3 +11,7 @@ function isIntersecting(x1, x2) {
 function delegate(who, to) {
     who.__proto__ = to;
 }
+/* pega elemento query */
+function query(seletoctor) {
+    return document.querySelector(seletoctor);
+}

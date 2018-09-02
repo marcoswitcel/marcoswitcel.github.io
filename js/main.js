@@ -73,9 +73,10 @@ var renderizibles = {
         this.update();
         CTX.fillStyle = this.color;
         //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
-        CTX.beginPath();
-        CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
-        CTX.fill();
+        //CTX.beginPath();
+        //CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
+        //CTX.fill();
+        CTX.drawImage(query("#player"), 0, 0, 112, 75, this.xPos - 56, this.yPos - 37.5, this.radius*2, (this.radius*2)*0.67);
     }
 };
 
@@ -89,7 +90,7 @@ var PLAYER = {
     speedY: 0,
     maxSpeed: 2,
     xPos: CONFIG.width / 2,
-    radius: 10,
+    radius: 20,
     yPos: CONFIG.height * 0.9
 };
 
@@ -149,7 +150,7 @@ function main() {
         CTX.font = "20px Arial";
         CTX.fillText("Music by SpiderDave, SFX by TinyWorlds", CONFIG.width * .05, CONFIG.height * .8);
     } else if (gameOver) {
-        CTX.fillStyle = "white";
+        CTX.fillStyle = "White";
         CTX.fillRect(CONFIG.width * .18, CONFIG.height * .3, CONFIG.width * .75, 150);
         CTX.fillStyle = "Black";
         CTX.font = "35px Arial";
@@ -164,9 +165,9 @@ function main() {
         Enemies.caughtPlayer();
 
         // renderiza
-        PLAYER.render();
         Particles.renderAll();
         Enemies.renderAll();
+        PLAYER.render();
         TIMER.render();
     }
 
