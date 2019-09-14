@@ -1,11 +1,11 @@
-function Particles(color, width, height, speed, xPos, yPos, radius) {
+/*global CONFIG, CTX */
+/* */
+function Particles(color, radius, speed, xPos, yPos) {
     this.color = color;
-    this.width = width;
-    this.height = height;
+    this.radius = radius;
     this.speed = speed;
     this.xPos = xPos;
     this.yPos = yPos;
-    this.radius = 5;
 }
 
 Particles.list = [];
@@ -16,7 +16,11 @@ Particles.prototype.update = function update() {
 Particles.prototype.render = function render() {
     this.update();
     CTX.fillStyle = this.color;
-    CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+    //CTX.fillRect(this.xPos, this.yPos, this.width, this.height);
+    CTX.beginPath();
+    CTX.arc(this.xPos, this.yPos, this.radius, 0, 2 * Math.PI);
+    CTX.fill();
+    //CTX.stroke();
 };
 
 Particles.renderAll = function renderList() {
@@ -40,6 +44,8 @@ Particles.check = function renderList() {
 
 Particles.spawn = function renderList() {
     if (this.list.length < 50) {
-        Particles.list.push(new Particles("#a1e9f7", 4, 4, .5, CONFIG.width * Math.random(), -(CONFIG.height * Math.random()), 5));
+        var radius = 1 + Math.floor(Math.random()*3);
+        Particles.list.push(new Particles('#a1e9f7', radius, .5, CONFIG.width * Math.random(), -(CONFIG.height * Math.random()), 5));
     }
 };
+/* */

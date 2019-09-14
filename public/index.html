@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Space Evaders</title>
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+        <link rel="stylesheet" href="/css/main.css">
+        <script>
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            if (!isChrome) {
+                var fa = document.querySelector('#iframeAudio');
+                fa.parentNode.removeChild(fa);
+            }
+        </script>
+    </head>
+    <body>
+        <!--<iframe src="assets/main.ogg" allow="autoplay" style="display:none" id="iframeAudio">
+        </iframe>-->
+        <audio autoplay loop id="playAudio">
+            <!--<source src="assets/main.ogg">-->
+        </audio>
+        <canvas id="canvas" style="box-shadow: 0 0 5px rgba(0, 0, 0, .5)">
+            Your browser does not support the canvas tag
+        </canvas>
+        <div style="float:right;height:0;overflow:hidden">
+            <img id="ufoBlue" src="assets/ufoBlue.png" style="opacity:0">
+            <img id="ufoRed" src="assets/ufoRed.png" style="opacity:0">
+            <img id="ufoGreen" src="assets/ufoGreen.png" style="opacity:0">
+            <img id="ufoYellow" src="assets/ufoYellow.png" style="opacity:0">
+            <img id="player" src="assets/player.png" style="opacity:0">
+            <img id="screenMain" src="assets/main.png" style="opacity:0">
+            <img id="screenCredits" src="assets/credits.png" style="opacity:0">
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>

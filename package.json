@@ -1,0 +1,27 @@
+{
+  "name": "marcoswitcel.github.io",
+  "version": "1.0.0",
+  "description": "Desenvolvido por:\r * [Gabriel Ullmann](https://github.com/nkinesis)\r * [João Marcos](https://github.com/marcoswitcel)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoswitcel/marcoswitcel.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoswitcel/marcoswitcel.github.io/issues"
+  },
+  "homepage": "https://github.com/marcoswitcel/marcoswitcel.github.io#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.13.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "gulp-js-import": "^1.0.6"
+  }
+}

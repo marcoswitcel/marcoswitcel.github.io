@@ -1,3 +1,4 @@
+/* */
 function Enemies(color, width, height, speed, xPos, yPos, radius, type) {
     this.color = color;
     this.width = width;
@@ -7,35 +8,42 @@ function Enemies(color, width, height, speed, xPos, yPos, radius, type) {
     this.yPos = yPos;
     this.radius = 5;
     this.type = type;
-    if (typeof radius !== "undefined") {
+    this.degree = 1;
+    this.angularSpeed = 2;
+    if (typeof radius !== 'undefined') {
         this.radius = radius;
     }
 }
 Enemies.prototype.update = function update() {
     if (!this.type) {
-        this.type = "inner";
+        this.type = 'inner';
     }
     Enemies.action[this.type](this);
 
 };
 Enemies.prototype.render = function render() {
     this.update();
+    CTX.save();
+    CTX.translate(this.xPos, this.yPos);
+    CTX.rotate((this.degree += this.angularSpeed)*Math.PI/180);
     CTX.fillStyle = this.color;
     CTX.beginPath();
     switch (this.type) {
-        case "inner":
-            CTX.drawImage(query("#ufoRed"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
+        case 'inner':
+            CTX.drawImage(query('#ufoRed'), - this.radius, - this.radius, this.radius * 2, this.radius * 2);
             break;
-        case "outer":
-            CTX.drawImage(query("#ufoGreen"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
+        case 'outer':
+            CTX.drawImage(query('#ufoGreen'), - this.radius, - this.radius, this.radius * 2, this.radius * 2);
             break;
-        case "thunder":
-            CTX.drawImage(query("#ufoBlue"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
+        case 'thunder':
+            CTX.drawImage(query('#ufoBlue'), - this.radius, - this.radius, this.radius * 2, this.radius * 2);
             break;
-        case "lemon":
-            CTX.drawImage(query("#ufoYellow"), this.xPos - this.radius*2, this.yPos - this.radius, this.radius * 2, this.radius * 2);
+        case 'lemon':
+            CTX.drawImage(query('#ufoYellow'), - this.radius, - this.radius, this.radius * 2, this.radius * 2);
             break;
     }
+    CTX.restore();
+
 
     CTX.fill();
 };
@@ -68,6 +76,7 @@ Enemies.action = {
         elm.yPos += elm.speed;
         if (elm.yPos > CONFIG.height / 4) {
             elm.speed = 3;
+            this.angularSpeed *= 2;
         }
     },
     'outer': function exec(elm) {
@@ -123,7 +132,7 @@ Enemies.spawn = function renderList() {
             if (rt > 0 && rt <= 3) {
                 this.list.push(new Enemies("red", 10, 10, 0.5, this.getQuadrant(conf[0]), height, 30, "inner"));
             } else if (rt > 3 && rt <= 6) {
-                this.list.push(new Enemies("green", 10, 10, 3, this.getQuadrant(conf[1]), height, 30, "outer"));
+                 this.list.push(new Enemies("green", 10, 10, 3, this.getQuadrant(conf[1]), height, 30, "outer"));
             } else if (rt > 6 && rt <= 8) {
                 this.list.push(new Enemies("blue", 10, 10, 1, PLAYER.xPos + spacing, height, 40, "thunder"));
             } else if (rt > 8 && rt <= 10) {
@@ -136,7 +145,7 @@ Enemies.spawn = function renderList() {
 
 Enemies.rand = function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 Enemies.getQuadrant = function get() {
     var qd = this.rand(1, 4);
@@ -147,27 +156,28 @@ Enemies.getQuadrant = function get() {
     } else {
         return this.rand(CONFIG.width * 0.67, CONFIG.width);
     }
-}
+};
 
 Enemies.getActionConfig = function get(num) {
     switch (num) {
-        case 1:
-            return [1, 2, 3];
-        case 2:
-            return [1, 3, 2];
-        case 3:
-            return [3, 2, 1];
+    case 1:
+        return [1, 2, 3];
+    case 2:
+        return [1, 3, 2];
+    case 3:
+        return [3, 2, 1];
     }
-}
+};
 
 Enemies.caughtPlayer = function caughtPlayer() {
     for (var i = 0; i < this.list.length; i++) {
         if (isIntersecting(this.list[i], PLAYER)) {
-            var audio = new Audio('assets/explosion.ogg');
-            audio.volume = 0.5;
-            audio.play();
+            // var audio = new Audio('assets/explosion.ogg');
+            // audio.volume = 0.5;
+            // audio.play();
             gameOver = true;
             break;
         }
     }
 };
+/* */
